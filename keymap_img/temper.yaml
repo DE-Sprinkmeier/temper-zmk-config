@@ -2,16 +2,16 @@ layout: {zmk_keyboard: temper}
 layers:
   qwertz:
   - [Q, W, E, R, T, Y, U, I, O, P]
-  - - A
-    - S
-    - D
-    - F
+  - - {t: A, h: ⇧}
+    - {t: S, h: ⌃}
+    - {t: D, h: ⎇}
+    - {t: F, h: ⌘}
     - G
     - H
-    - J
-    - K
-    - L
-    - {t: ;, s: ':'}
+    - {t: J, h: ⌘}
+    - {t: K, h: ⎇}
+    - {t: L, h: ⌃}
+    - {t: ;, h: ⇧, s: ':'}
   - - Z
     - X
     - C
@@ -21,23 +21,69 @@ layers:
     - M
     - {t: ',', s: 'Sft+,'}
     - {t: ., s: Sft+.}
-    - {t: '-', s: _}
-  - - {t: ⌘, h: wm}
-    - {t: ⎇, h: fn}
+    - /
+  - - {t: ESC, h: wm}
+    - {t: ↹, h: sym}
     - {t: ⇧, s: ⇪}
     - SPACE
-    - cfg
-    - BSPC
-  fn:
-  - [F1, F2, F3, F4, F5, KP STAR, KP 7, KP 8, KP 9, KP SLASH]
-  - [F6, F7, F8, F9, F10, KP PLUS, KP 4, KP 5, KP 6, KP MINUS]
-  - [F11, F12, PSCRN, HOME, END, KP EQUAL, KP 1, KP 2, KP 3, KP DOT]
-  - - ↹
-    - {t: ⎇, type: held}
+    - {t: RET, h: nav}
+    - {t: BSPC, h: cfg}
+  sym:
+  - - Sft+1
+    - Sft+2
+    - AltGr+7
+    - AltGr+0
+    - AltGr+NUBS
+    - Sft+6
+    - '7'
+    - '8'
+    - '9'
+    - {t: 'Sft+]', s: 'Sft+}'}
+  - - '#'
+    - AltGr+Q
+    - Sft+8
+    - Sft+9
+    - Sft+0
+    - Sft+5
+    - '4'
+    - '5'
+    - '6'
+    - {t: ']', s: '}'}
+  - - {t: 'AltGr+]', s: 'AltGr+}'}
+    - Sft+4
+    - AltGr+8
+    - AltGr+9
+    - {t: AltGr+-, s: AltGr+_}
+    - {t: Sft+-, s: Sft+_}
+    - '1'
+    - '2'
+    - '3'
+    - Sft+7
+  - - NUBS
+    - {type: held}
+    - Sft+NUBS
+    - Sft+#
+    - '0'
+    - Sft+/
+  nav:
+  - [F1, F2, F3, F4, F5, PG UP, HOME, ↑, END, PG DN]
+  - [F6, F7, F8, F9, F10, DEL, ←, ↓, →, BSPC]
+  - - F11
+    - F12
+    - PSCRN
+    - CAPS
     - ESC
-    - KP 0
-    - ⌃
-    - RET
+    - INS
+    - ↞
+    - {t: ▽, type: trans}
+    - ↠
+    - Alt+BSPC
+  - - ↹
+    - ⌘
+    - {t: ▽, type: trans}
+    - {t: ▽, type: trans}
+    - {type: held}
+    - {t: ▽, type: trans}
   wm:
   - [Ctl+↑, Ctl+↓, Gui+SPACE, Gui+↹, Ctl+Alt+↓, '&mkp MB4', '&mkp MB5', '&mmv MOVE_UP', Ctl+Alt+BSPC, '&msc SCRL_UP']
   - - Ctl+Alt+U
@@ -83,5 +129,5 @@ layers:
     - ⎇
     - ⇧
     - SPACE
+    - RET
     - {type: held}
-    - BSPC
