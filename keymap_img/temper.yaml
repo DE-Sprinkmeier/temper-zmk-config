@@ -19,9 +19,9 @@ layers:
     - B
     - N
     - M
-    - {t: ',', s: 'Sft+,'}
-    - {t: ., s: Sft+.}
-    - /
+    - {t: ',', s: ;}
+    - {t: ., s: ':'}
+    - '-'
   - - {t: ESC, h: wm}
     - {t: ↹, h: sym}
     - {t: ⇧, s: ⇪}
@@ -29,42 +29,15 @@ layers:
     - {t: RET, h: nav}
     - {t: BSPC, h: cfg}
   sym:
-  - - Sft+1
-    - Sft+2
-    - AltGr+7
-    - AltGr+0
-    - AltGr+NUBS
-    - Sft+6
-    - '7'
-    - '8'
-    - '9'
-    - {t: 'Sft+]', s: 'Sft+}'}
-  - - '#'
-    - AltGr+Q
-    - Sft+8
-    - Sft+9
-    - Sft+0
-    - Sft+5
-    - '4'
-    - '5'
-    - '6'
-    - {t: ']', s: '}'}
-  - - {t: 'AltGr+]', s: 'AltGr+}'}
-    - Sft+4
-    - AltGr+8
-    - AltGr+9
-    - {t: AltGr+-, s: AltGr+_}
-    - {t: Sft+-, s: Sft+_}
-    - '1'
-    - '2'
-    - '3'
-    - Sft+7
-  - - NUBS
+  - ['!', '"', '{', '}', '|', '&', '7', '8', '9', '*']
+  - ['#', '@', (, ), '=', '%', '4', '5', '6', +]
+  - ['~', $, '[', ']', \, '?', '1', '2', '3', /]
+  - - <
     - {type: held}
-    - Sft+NUBS
-    - Sft+#
+    - '>'
+    - ''''
     - '0'
-    - Sft+/
+    - _
   nav:
   - [F1, F2, F3, F4, F5, PG UP, HOME, ↑, END, PG DN]
   - [F6, F7, F8, F9, F10, DEL, ←, ↓, →, BSPC]
