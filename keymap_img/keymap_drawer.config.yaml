@@ -184,6 +184,9 @@ parse_config:
     '&nav_word': 'NAV'
     '&caps_word_capslock': "Caps\nWord"
     '&caps_word': '⇪'
+    '&smart_shft': {t: '⇧', s: '⇪'}
+    '&comma_semi': {t: ',', s: ';'}
+    '&dot_colon': {t: '.', s: ':'}
     '&td_shift_l': '⇧'
     '&td_shift_r': '⇧'
     '&td_nav_layer': {t: '⏎', h: 'NAV'}
@@ -310,6 +313,35 @@ parse_config:
     'LG(V)': '⌘V'
     'LC(TAB)': '⌃↹'
     'LS(LC(TAB))': '⌃⇧↹'
+    # Deutsches QWERTZ – AltGr-Kombinationen
+    'RA(N7)': '{'
+    'RA(N0)': '}'
+    'RA(N8)': '['
+    'RA(N9)': ']'
+    'RA(MINUS)': \
+    'RA(Q)': '@'
+    'RA(NUBS)': '|'
+    'RA(RBKT)': '~'
+    # Deutsches QWERTZ – Shift-Kombinationen
+    'LS(N1)': '!'
+    'LS(N2)': '"'
+    'LS(N4)': '$'
+    'LS(N5)': '%'
+    'LS(N6)': '&'
+    'LS(N7)': '/'
+    'LS(N8)': '('
+    'LS(N9)': ')'
+    'LS(N0)': '='
+    'LS(MINUS)': '?'
+    'LS(NUHS)': "'"
+    'LS(RBKT)': '*'
+    'LS(NUBS)': '>'
+    # Deutsches QWERTZ – einfache Tasten
+    RBKT: '+'
+    NUHS: '#'
+    NUBS: '<'
+    FSLH: '-'
+    'LS(FSLH)': '_'
 #   zmk_combos:
 #     combo_tog_nav_word: {'a': 'bottom', 'o': -0.25}
 #     combo_tog_num_word: {'a': 'bottom', 'o': 0.0}
