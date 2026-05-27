@@ -4,6 +4,18 @@
  *
  * Setzt deutsches QWERTZ-Layout im Betriebssystem voraus.
  * Fenster-Shortcuts: Raycast Window Management (Standardbelegung).
+ *
+ * LAYER-ÜBERSICHT
+ * ───────────────
+ * 0 QWTZ  Buchstaben (QWERTZ) + Home-Row-Mods
+ * 1 SYM   Sonderzeichen + Zahlen  (tap=TAB / hold=SYM)
+ * 2 NAV   Navigation + F-Tasten   (tap=Enter / hold=NAV)
+ * 3 WM    Fensterverwaltung + Maus (tap=ESC / hold=WM)
+ * 4 CFG   Tastatur-Konfiguration   (tap=Bspc / hold=CFG)
+ *
+ * HOME-ROW-MODS (halten = Modifier)
+ * ───────────────────────────────────
+ *   A=Shift  S=Ctrl  D=Alt  F=Cmd  |  J=Cmd  K=Alt  L=Ctrl  Ö=Shift
  */
 
 #include <behaviors.dtsi>
@@ -13,11 +25,43 @@
 #include <dt-bindings/zmk/mouse.h>
 
 #define QWTZ 0
-#define FN   1
-#define WM   2
-#define CFG  3
+#define SYM  1
+#define NAV  2
+#define WM   3
+#define CFG  4
 
 #define ______ &trans
+
+// ── Deutsches QWERTZ OS – Sonderzeichen-Aliase ──────────────────────────────
+// AltGr-Kombinationen
+#define DE_LCBR  RA(N7)     // {
+#define DE_RCBR  RA(N0)     // }
+#define DE_LBRC  RA(N8)     // [
+#define DE_RBRC  RA(N9)     // ]
+#define DE_BSLH  RA(MINUS)  // backslash  (AltGr+ß)
+#define DE_AT    RA(Q)      // @
+#define DE_PIPE  RA(NUBS)   // |          (AltGr+<)
+#define DE_TILD  RA(RBKT)   // ~          (AltGr++)
+// Shift-Kombinationen
+#define DE_EXCL  LS(N1)     // !
+#define DE_DQUO  LS(N2)     // "
+#define DE_DLLR  LS(N4)     // $
+#define DE_PERC  LS(N5)     // %
+#define DE_AMPR  LS(N6)     // &
+#define DE_SLSH  LS(N7)     // /
+#define DE_LPAR  LS(N8)     // (
+#define DE_RPAR  LS(N9)     // )
+#define DE_EQL   LS(N0)     // =
+#define DE_QUES  LS(MINUS)  // ?  (Shift+ß)
+#define DE_QUOT  LS(NUHS)   // '
+#define DE_STAR  LS(RBKT)   // *
+// Sonstige
+#define DE_PLUS  RBKT       // +
+#define DE_HASH  NUHS       // #
+#define DE_LT    NUBS       // <
+#define DE_GT    LS(NUBS)   // >
+#define DE_MINS  FSLH       // -  (HID FSLH = deutsches Minus)
+#define DE_UNDS  LS(FSLH)   // _
 
 / {
     behaviors {
@@ -27,7 +71,6 @@
             bindings = <&kp LSHFT>, <&caps_word>;
             mods = <(MOD_LSFT)>;
         };
-        // Deutsches QWERTZ: Shift+, → ; und Shift+. → :
         comma_semi: comma_semi {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -40,55 +83,75 @@
             bindings = <&kp DOT>, <&kp LS(DOT)>;
             mods = <(MOD_LSFT)>;
         };
+        // Home-Row-Mod: hold=Modifier, tap=Buchstabe
+        // tapping-term 280ms + require-prior-idle reduzieren Fehltrigger beim schnellen Tippen
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        // QWERTZ – Setzt deutsches QWERTZ im OS voraus.
-        // kp Y → HID Y-Code → deutsches OS → 'z'
-        // kp Z → HID Z-Code → deutsches OS → 'y'
-        // kp SEMI → HID Semikolon → deutsches OS → 'ö'
+        // ── Layer 0: QWERTZ ────────────────────────────────────────────────
+        // Home-Row: A=⇧ · S=⌃ · D=⌥ · F=⌘  |  J=⌘ · K=⌥ · L=⌃ · Ö=⇧
+        // Daumen:  [ESC/WM] [TAB/SYM] [⇧]  |  [Space] [Enter/NAV] [Bspc/CFG]
         qwertz_layer {
             bindings = <
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
         &kp Q         &kp W         &kp E         &kp R         &kp T             &kp Y         &kp U         &kp I         &kp O         &kp P
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-        &kp A         &kp S         &kp D         &kp F         &kp G             &kp H         &kp J         &kp K         &kp L         &kp SEMI
+     &hm LSHFT A   &hm LCTRL S   &hm LALT D    &hm LGUI F      &kp G             &kp H       &hm RGUI J    &hm RALT K    &hm RCTRL L  &hm RSHFT SEMI
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-        &kp Z         &kp X         &kp C         &kp V         &kp B             &kp N         &kp M       &comma_semi    &dot_colon     &kp MINUS
+        &kp Z         &kp X         &kp C         &kp V         &kp B             &kp N         &kp M       &comma_semi    &dot_colon    &kp DE_MINS
 // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                 &lt WM LGUI   &lt FN LALT   &smart_shft        &kp SPACE      &mo CFG      &kp BSPC
+                                  &lt WM ESC    &lt SYM TAB   &smart_shft        &kp SPACE    &lt NAV RET  &lt CFG BSPC
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             >;
         };
 
-        // FN-Tasten links | Zahlenblock rechts
-        // Daumen: Tab · Option · Esc  |  KP_0 · RCtrl · Enter
-        // Reihe 3 links: F11 · F12 · Druck · Pos1 · Ende
-        fn_layer {
+        // ── Layer 1: SYM – Sonderzeichen + Zahlen ──────────────────────────
+        // Brackets auf Home-Row: ( ) – eine Reihe drüber: { } – darunter: [ ]
+        // Daumen: < · [held] · >  |  ' · 0 · _
+        sym_layer {
             bindings = <
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-        &kp F1        &kp F2        &kp F3        &kp F4        &kp F5          &kp KP_STAR    &kp KP_N7     &kp KP_N8     &kp KP_N9   &kp KP_SLASH
+      &kp DE_EXCL  &kp DE_DQUO  &kp DE_LCBR  &kp DE_RCBR  &kp DE_PIPE        &kp DE_AMPR   &kp N7        &kp N8        &kp N9      &kp DE_STAR
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-        &kp F6        &kp F7        &kp F8        &kp F9        &kp F10         &kp KP_PLUS    &kp KP_N4     &kp KP_N5     &kp KP_N6   &kp KP_MINUS
+      &kp DE_HASH  &kp DE_AT    &kp DE_LPAR  &kp DE_RPAR  &kp DE_EQL         &kp DE_PERC   &kp N4        &kp N5        &kp N6      &kp DE_PLUS
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-        &kp F11       &kp F12       &kp PSCRN     &kp HOME      &kp END         &kp KP_EQUAL   &kp KP_N1     &kp KP_N2     &kp KP_N3    &kp KP_DOT
+      &kp DE_TILD  &kp DE_DLLR  &kp DE_LBRC  &kp DE_RBRC  &kp DE_BSLH        &kp DE_QUES   &kp N1        &kp N2        &kp N3      &kp DE_SLSH
 // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                    &kp TAB       &kp LALT      &kp ESC          &kp KP_N0     &kp RCTRL      &kp RET
+                                  &kp DE_LT     ______       &kp DE_GT          &kp DE_QUOT   &kp N0       &kp DE_UNDS
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             >;
         };
 
-        // Links: Fensterverwaltung (Raycast Standard-Shortcuts)
-        //   R1: MissionCtrl · AppExposé · ⌘Leertaste(Raycast) · ⌘Tab(Switcher) · ⌃⌥↓(Unten-Halb)
-        //   R2: ObenLinks · LinksHälfte · Maximieren · RechtsHälfte · ObenRechts
-        //   R3: sk⌘ · sk⌥ · sk⌃ · sk⇧ · ⌃⌥C(Zentrieren)
-        // Rechts: Maus
-        //   R1: MB4(Zurück) · MB5(Vor) · Hoch · ⌃⌥⌫(Wiederherstellen) · ScrUp
-        //   R2: · Links · Runter · Rechts · ScrDn
-        //   R3: Scr← · ESC · RET · DEL · Scr→
-        //   Daumen: [Layer] · Option · Shift  |  MB1 · MB2 · MB3
+        // ── Layer 2: NAV – Navigation + F-Tasten ───────────────────────────
+        // Links: F1-F12  |  Rechts: Pfeiltasten (Inverted-T), PgUp/Dn, Word-Nav
+        // Daumen: Tab · Cmd · [⇧]  |  [Space] · [held] · [Bspc]
+        nav_layer {
+            bindings = <
+// ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+        &kp F1        &kp F2        &kp F3        &kp F4        &kp F5           &kp PG_UP    &kp HOME      &kp UP        &kp END      &kp PG_DN
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+        &kp F6        &kp F7        &kp F8        &kp F9        &kp F10          &kp DEL      &kp LEFT      &kp DOWN      &kp RIGHT    &kp BSPC
+// ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+        &kp F11       &kp F12       &kp PSCRN     &kp CAPS      &kp ESC          &kp INS    &kp LA(LEFT)    ______      &kp LA(RIGHT) &kp LA(BSPC)
+// ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
+                                    &kp TAB       &kp LGUI      ______            ______        ______        ______
+//                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+            >;
+        };
+
+        // ── Layer 3: WM – Fensterverwaltung (Raycast) + Maus ───────────────
+        // Daumen: [held] · ⌥ · ⇧  |  MB1 · MB2 · MB3
         wm_layer {
             bindings = <
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
@@ -103,13 +166,8 @@
             >;
         };
 
-        // Konfiguration: Bluetooth | Audio | Ausgabe | System
-        //   R1 links: BT 0-4  |  R1 rechts: Druck · Heller− · Heller+ · USB · BLE
-        //   R2 links: BT_CLR · OutToggle · ⌃⌘Q(Sperre) · Schlaf · CapsLock
-        //   R2 rechts: Schlaf · Vol− · Vol+ · Mute · App-Menü
-        //   R3 links: Reset · Bootl. · ⌘⇧3 · ⌘⇧4 · ⌘⇧5
-        //   R3 rechts: Stop · Zurück · Play/Pause · Weiter · Auswerfen
-        //   Daumen: Cmd · Option · Shift  |  Space · [Layer] · Backspace
+        // ── Layer 4: CFG – Tastatur-Konfiguration ──────────────────────────
+        // Daumen: ⌘ · ⌥ · ⇧  |  Space · Enter · [held]
         cfg_layer {
             bindings = <
 // ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
@@ -119,7 +177,7 @@
 // ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
       &sys_reset    &bootloader  &kp LG(LS(N3)) &kp LG(LS(N4)) &kp LG(LS(N5))  &kp C_STOP   &kp C_PREV    &kp C_PP     &kp C_NEXT    &kp C_EJECT
 // ╰─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────╯
-                                   &kp LGUI      &kp LALT     &kp LSHFT         &kp SPACE      ______       &kp BSPC
+                                   &kp LGUI      &kp LALT     &kp LSHFT         &kp SPACE     &kp RET        ______
 //                             ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
             >;
         };
