@@ -184,9 +184,7 @@ parse_config:
     '&nav_word': 'NAV'
     '&caps_word_capslock': "Caps\nWord"
     '&caps_word': '⇪'
-    '&smart_shft': {t: '⇧', s: '⇪'}
-    '&comma_semi': {t: ',', s: ';'}
-    '&dot_colon': {t: '.', s: ':'}
+    '&mins_unds': {t: '-', s: '_'}
     '&td_shift_l': '⇧'
     '&td_shift_r': '⇧'
     '&td_nav_layer': {t: '⏎', h: 'NAV'}
